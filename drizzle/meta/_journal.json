@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1760144356897,
+      "tag": "0000_tiny_the_santerians",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1760144378754,
+      "tag": "0001_bitter_energizer",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1760160165743,
+      "tag": "0002_watery_jocasta",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1760161660334,
+      "tag": "0003_jittery_zarek",
+      "breakpoints": true
+    }
+  ]
+}
