@@ -1,0 +1,10 @@
+###categories
+POST http://localhost:3001/categories
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+{
+    "name": "makanan",
+    "slug": "makanan yang sangat enak",
+    "description": "ini adalah makanan yang sanagt enak dan sanagt lejat"
+}

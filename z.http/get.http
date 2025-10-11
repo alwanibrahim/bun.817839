@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "alwan ibrahim",
-    "email": "alwanibrahim142@gmail.com",
+    "email": "mimin@gmail.com",
     "password": "santaikawan"
 }
 ###login
@@ -15,10 +15,11 @@ Content-Type: application/json
     "email": "alwanibrahim142@gmail.com",
     "password": "santaikawan"
 }
+
 ###get
 GET http://localhost:3001/auth/private/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJzZXNzaW9uS2V5IjozLCJleHAiOjE3NjA3NjU2ODMsImlhdCI6MTc2MDE2MDg4M30.09thoWt4U7G7T0EMc2Se2F33-rN3qPucRSCWuvlFbDU
+Authorization: Bearer {{$dotenv TOKEN}}
 ###get
 POST  http://localhost:3001/test/ctx
 Content-Type: application/json
@@ -35,8 +36,7 @@ GET http://localhost:3001/test/cookie
 Cookie: token=jdwehdil; theme=dark
 ###product
 GET http://localhost:3001/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJzZXNzaW9uS2V5Ijo4LCJleHAiOjE3NjA3NzUzNDEsImlhdCI6MTc2MDE3MDU0MX0.GctYILN_0caW5ixTrOre84tS1EMxe4HV_Wv2CmgOt78
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJzZXNzaW9uS2V5IjoyNiwiZXhwIjoxNzYwNzk1NjQ0LCJpYXQiOjE3NjAxOTA4NDR9.uPtTNjbqfLT4VrgmId2el1L76pHwm-f8E1CbTxzG9J4
 ###product
 POST  http://localhost:3001/products
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJzZXNzaW9uS2V5IjozLCJleHAiOjE3NjA3NjU2ODMsImlhdCI6MTc2MDE2MDg4M30.09thoWt4U7G7T0EMc2Se2F33-rN3qPucRSCWuvlFbDU
@@ -62,12 +62,12 @@ Content-Type: application/json
 
 ###categories
 GET   http://localhost:3001/categories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJleHAiOjE3NjA3MDkzMTYsImlhdCI6MTc2MDEwNDUxNn0.Sc5IpMPScwDUxZYUv1iUpyZJ60khNEGQ6qzKxfVMim4
+Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 
 ###deposite
 GET   http://localhost:3001/deposites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJleHAiOjE3NjA3MDkzMTYsImlhdCI6MTc2MDEwNDUxNn0.Sc5IpMPScwDUxZYUv1iUpyZJ60khNEGQ6qzKxfVMim4
+Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 
 
@@ -78,7 +78,25 @@ Content-Type: application/json
 
 ###notif
 GET   http://localhost:3001/notifications
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwibmFtZSI6ImFsd2FuIGlicmFoaW0iLCJlbWFpbCI6ImFsd2FuaWJyYWhpbTE0MkBnbWFpbC5jb20iLCJleHAiOjE3NjA3MDkzMTYsImlhdCI6MTc2MDEwNDUxNn0.Sc5IpMPScwDUxZYUv1iUpyZJ60khNEGQ6qzKxfVMim4
+Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
+
+###user
+GET   http://localhost:3001/user
+Authorization: Bearer {{$dotenv TOKEN}}
+
+###productaccount
+GET   http://localhost:3001/product-account
+Authorization: Bearer {{$dotenv TOKEN}}
+
+
+###productimvite
+GET   http://localhost:3001/product-invites
+Authorization: Bearer {{$dotenv TOKEN}}
+
+
+###productvariant
+GET   http://localhost:3001/product-variant
+Authorization: Bearer {{$dotenv TOKEN}}
 
 

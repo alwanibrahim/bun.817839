@@ -6,7 +6,8 @@
   "generate": "drizzle-kit generate",
   "migrate": "drizzle-kit migrate",
   "studio": "drizzle-kit studio",
-  "introspect": "drizzle-kit introspect"
+  "introspect": "drizzle-kit introspect",
+  "api":"k6 run load.test.ts"
 },
   "dependencies": {
     "@elysiajs/cookie": "^0.8.0",

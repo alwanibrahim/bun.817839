@@ -6,6 +6,11 @@ import { categoryRoute  } from "./routes/category.route";
 import { depositeRoute } from "./routes/deposite.route";
 import { affiliateCommissionsRoute } from "./routes/affiliateCommissions.route";
 import { notificationRoute } from "./routes/notif.route";
+import { userRoute } from "./routes/user.route";
+import { productAccountsRoute } from "./routes/productAccount.route";
+import { productInvitesRoute } from "./routes/productInvites.route";
+import { productVariantsRoute } from "./routes/productVariants.route";
+import { distributionRoute } from "./routes/distribution.route";
 
 const app = new Elysia().get("/", () => "Hello Elysia")
   .use(authRoute)
@@ -15,6 +20,11 @@ const app = new Elysia().get("/", () => "Hello Elysia")
   .use(depositeRoute)
   .use(affiliateCommissionsRoute)
   .use(notificationRoute)
+  .use(userRoute)
+  .use(productAccountsRoute)
+  .use(productInvitesRoute)
+  .use(productVariantsRoute)
+  .use(distributionRoute)
   .listen(3001);
 
 console.log(

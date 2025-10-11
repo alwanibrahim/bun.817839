@@ -19,8 +19,8 @@ export const productSchema = t.Object({
 export const updateProductSchema = t.Partial(productSchema)
 
 export const productRoute = new Elysia({ prefix: "/products" })
-    // .use(jwtPlugin)
-    // .derive(requireAuth)
+    .use(jwtPlugin)
+    .derive(requireAuth)
     .get("/", async () => {
         const data = await db.select().from(products);
         // if (!data) response.fail("data tidak di temukan")
