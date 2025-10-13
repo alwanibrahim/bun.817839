@@ -18,14 +18,13 @@ export const affiliateCommissions = mysqlTable("affiliate_commissions", {
 export const categories = mysqlTable("categories", {
     id: bigint({ mode: "number", unsigned: true }).autoincrement().notNull(),
     name: varchar({ length: 255 }).notNull(),
-    slug: varchar({ length: 255 }).notNull(),
+    slug: varchar({ length: 255 }),
     description: text(),
     createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
     updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
     (table) => [
         primaryKey({ columns: [table.id], name: "categories_id" }),
-        unique("categories_slug_unique").on(table.slug),
     ]);
 
 export const deposits = mysqlTable("deposits", {
@@ -140,6 +139,14 @@ export const productVariants = mysqlTable("product_variants", {
         primaryKey({ columns: [table.id], name: "product_variants_id" }),
     ]);
 
+export const productTypes = mysqlTable("product_types", {
+    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    name: varchar("name", { length: 100 }).notNull(), // ex: "Account"
+    slug: varchar("slug", { length: 100 }).notNull().unique(), // ex: "account"
+    description: text("description"),
+    createdAt: timestamp("created_at").defaultNow(),
+})
+
 
 export const products = mysqlTable(
     "products",
@@ -148,12 +155,11 @@ export const products = mysqlTable(
             .autoincrement()
             .notNull(),
         name: varchar("name", { length: 255 }).notNull(),
-        type: mysqlEnum("type", ["account", "invite", "family"]).notNull(),
-        price: decimal("price", { precision: 15, scale: 2 }).notNull(),
-        originalPrice: decimal("original_price", { precision: 15, scale: 2 }),
+        typeId: bigint("type_id", { mode: "number" })
+            .references(() => productTypes.id, { onDelete: "set null" }),
         description: text("description"),
         imageUrl: varchar("image_url", { length: 255 }),
-        features: json("features"),
+        features: json('features').$type<string[]>().default([]),
         createdAt: timestamp("created_at")
             .default(sql`CURRENT_TIMESTAMP`),
         updatedAt: timestamp("updated_at")
@@ -163,7 +169,7 @@ export const products = mysqlTable(
             .references(() => categories.id, { onDelete: "set null" }),
     },
     (table) => [
-        index("products_type_index").on(table.type),
+
         primaryKey({ columns: [table.id], name: "products_id" }),
     ]
 );

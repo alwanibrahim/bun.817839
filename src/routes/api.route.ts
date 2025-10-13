@@ -6,6 +6,8 @@ import { CategoriyController } from "../controllers/category.controller"
 import { AffiliateController } from "../controllers/affiliateCommissions.controller"
 import { DepositeController } from "../controllers/deposite.controller"
 import { UserController } from "../controllers/user.controller"
+import { ProductTypeController } from "../controllers/productTypes.controller"
+import { AuthController } from "../controllers/auth.controller"
 
 
 export const userRoutes = routeGroup(
@@ -18,6 +20,17 @@ export const userRoutes = routeGroup(
         group.get("/deposites", DepositeController.index)
         group.get("/deposites", DepositeController.index)
         group.get("/me", UserController.me)
+        group.get("/product-types", ProductTypeController.index)
+        group.post("/product-types", ProductTypeController.store)
+        group.post("/register", AuthController.register)
+    }
+)
+export const authRoute = routeGroup(
+    "/api",
+    [],
+    (group) => {
+        group.post("/register", AuthController.register)
+        group.post("/login", AuthController.login)
     }
 )
 

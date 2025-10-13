@@ -2,8 +2,17 @@ import { db } from "../db";
 import { notifications } from "../db/schema";
 import { response } from "../utils/response";
 import { eq } from 'drizzle-orm'
+import { z } from 'zod'
 
 export class NotifController {
+    static createNotificationSchema = z.object({
+        userId: z.number(),
+        title: z.string().min(1),
+        message: z.string().min(1),
+        isRead: z.number().default(0),
+        type: z.enum(["system", "admin"]).default("system"),
+    });
+    static updateNotificationSchema = NotifController.createNotificationSchema.partial();
     static async index() {
         const data = await db.select().from(notifications)
         return response.success(data, "data berhasil")

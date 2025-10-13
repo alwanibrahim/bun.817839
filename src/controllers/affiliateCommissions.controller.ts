@@ -2,8 +2,19 @@ import { db } from "../db";
 import { categories } from "../db/schema";
 import { response } from "../utils/response";
 import {eq} from 'drizzle-orm'
+import {z} from 'zod'
 
 export class AffiliateController{
+
+    static createAffiliateCommissionSchema = z.object({
+        referrerId: z.number(),
+        referredId: z.number(),
+        depositId: z.number(),
+        commissionAmount: z.number().positive(),
+    });
+
+    static updateAffiliateCommissionSchema = AffiliateController.createAffiliateCommissionSchema.partial();
+
     static async index(){
         const data = await db.select().from(categories)
         return response.success(data, "data berhasil")

@@ -5,6 +5,7 @@
     "dev": "bun run --watch src/index.ts",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
+    "push": "drizzle-kit push",
     "studio": "drizzle-kit studio",
     "introspect": "drizzle-kit introspect",
     "api": "k6 run load.test.ts"

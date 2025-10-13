@@ -5,14 +5,14 @@ import { response } from '../utils/response'
 export class ProductController {
     static createSchema = z.object({
         name: z.string('masukkan nama product'),
-        type: z.enum(["account", "invite", "family"]),
-        price: z.coerce.number().positive(),
-        originalPrice: z.coerce.number().positive().optional(),
+        typeId: z.coerce.number().int({ message: "typeId wajib diisi dan harus angka" }),
         description: z.string().optional(),
         imageUrl: z.string().optional(),
-        features: z.array(z.string()).optional(),
+        features: z.array(z.string()).optional().nullable().catch(null),
         categoryId: z.number().optional()
     })
+
+    static updateProductSchema = ProductController.createSchema.partial();
 
     static async index(){
         const data = await db.select().from(products)
@@ -20,30 +20,26 @@ export class ProductController {
     }
 
     static async store({body, user}: any){
+        console.log("BODY MASUK:", body)
         const parse = ProductController.createSchema.safeParse(body)
         if(!parse.success) return response.fail(parse.error.issues.map((e)=> e.message).join(", "), 422)
-            const {name, originalPrice, price, type, categoryId, description, features, imageUrl}= parse.data
+            const {name, categoryId, description, features, imageUrl, typeId}= parse.data
 
         await db.insert(products).values({
             name,
-            price: price.toString(),
-            type,
+            typeId,
             categoryId,
             features: features ?? null,
             imageUrl: imageUrl?.toString(),
             description,
-            originalPrice: price.toString()
         })
 
         return response.success({
             name,
-            price,
-            type,
             categoryId,
             features,
             imageUrl,
             description,
-            originalPrice
         }, "data berhasil")
     }
     static async update(){

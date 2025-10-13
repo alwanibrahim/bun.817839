@@ -2,13 +2,12 @@
 GET http://localhost:3001/api/products
 Authorization: Bearer {{$dotenv TOKEN}}
 ###post
-POST  http://localhost:3001/api/products
+POST  http://localhost:3001/api/admin/products
 Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 
 {
     "name": "minuman",
-    "type": "invite",
-    "price": "90000",
-    "features": ["sangat mantap", "berkualitas"]
+    "typeId": 1,
+    "features": ["sangat mantap"]
 }

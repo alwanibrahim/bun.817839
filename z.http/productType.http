@@ -1,0 +1,12 @@
+###get
+GET http://localhost:3001/api/product-types
+Authorization: Bearer {{$dotenv TOKEN}}
+###post
+POST  http://localhost:3001/api/product-types
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "account",
+    "slug": "account"
+}

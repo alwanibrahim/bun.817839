@@ -145,7 +145,7 @@ export const products = mysqlTable("products", {
 	originalPrice: decimal("original_price", { precision: 15, scale: 2 }),
 	description: text(),
 	imageUrl: varchar("image_url", { length: 255 }),
-	features: json(),
+	features: json("features"),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().onUpdateNow(),
 	categoryId: bigint("category_id", { mode: "number", unsigned: true }).references(() => categories.id),

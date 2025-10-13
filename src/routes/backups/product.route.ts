@@ -26,44 +26,44 @@ export const productRoute = new Elysia({ prefix: "/products" })
         return response.success(data, "Data produk");
     })
     .onRequest(({ request }) => console.time("Request total"))
-    .post(
-        "/",
-        async ({ body, user, set }) => {
+    // .post(
+    //     "/",
+    //     async ({ body, user, set }) => {
 
-            await db.insert(products).values({
-                name: body.name,
-                type: body.type as "account" | "invite" | "family",
-                price: String(body.price),
-                originalPrice: body.originalPrice ? String(body.originalPrice) : null,
-                description: body.description ?? null,
-                imageUrl: body.imageUrl ?? null,
-                features: body.features ?? null,
+    //         await db.insert(products).values({
+    //             name: body.name,
+    //             type: body.type as "account" | "invite" | "family",
+    //             price: String(body.price),
+    //             originalPrice: body.originalPrice ? String(body.originalPrice) : null,
+    //             description: body.description ?? null,
+    //             imageUrl: body.imageUrl ?? null,
+    //             features: body.features ?? null,
 
 
 
-            });
-            return response.success(null, `Produk ${name} berhasil ditambahkan oleh ${user.email}`);
-        },
-        {
-            body: productSchema
-        }
-    )
-    .put('/:id', async ({ params, body, set, user }) => {
-        const id = Number(params.id)
-        await db.update(products).set({
-            name: body.name,
-            type: body.type as "account" | "invite" | "family",
-            price: String(body.price),
-            originalPrice: body.originalPrice ? String(body.originalPrice) : null,
-            description: body.description ?? null,
-            imageUrl: body.imageUrl ?? null,
-            features: body.features ?? null,
-        }).where(eq(products.id, id))
+    //         });
+    //         return response.success(null, `Produk ${name} berhasil ditambahkan oleh ${user.email}`);
+    //     },
+    //     {
+    //         body: productSchema
+    //     }
+    // )
+    // .put('/:id', async ({ params, body, set, user }) => {
+    //     const id = Number(params.id)
+    //     await db.update(products).set({
+    //         name: body.name,
+    //         type: body.type as "account" | "invite" | "family",
+    //         price: String(body.price),
+    //         originalPrice: body.originalPrice ? String(body.originalPrice) : null,
+    //         description: body.description ?? null,
+    //         imageUrl: body.imageUrl ?? null,
+    //         features: body.features ?? null,
+    //     }).where(eq(products.id, id))
 
-        return response.success(null, `data berhasil di update oleh ${user.email}`)
-    }, {
-        body: updateProductSchema
-    })
+    //     return response.success(null, `data berhasil di update oleh ${user.email}`)
+    // }, {
+    //     body: updateProductSchema
+    // })
 
     .delete('/:id', async ({ params, user }) => {
         const id = Number(params.id)
