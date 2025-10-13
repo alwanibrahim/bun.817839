@@ -1,0 +1,17 @@
+###get
+GET http://localhost:3001/product-variant
+Authorization: Bearer {{$dotenv TOKEN}}
+
+###POST
+POST http://localhost:3001/product-variant
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "productId": 1,
+    "name": "capcut 1 bulan",
+    "duration": "1 bulan",
+    "price": "80000",
+    "originalPrice": "90000",
+    "status":"READY"
+}

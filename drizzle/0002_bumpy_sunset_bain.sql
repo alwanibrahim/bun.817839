@@ -1,0 +1,2 @@
+ALTER TABLE `affiliate_commissions` MODIFY COLUMN `created_at` timestamp DEFAULT CURRENT_TIMESTAMP;--> statement-breakpoint
+ALTER TABLE `affiliate_commissions` MODIFY COLUMN `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

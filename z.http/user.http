@@ -1,0 +1,3 @@
+###get
+GET http://localhost:3001/api/me
+Authorization: Bearer {{$dotenv TOKEN}}

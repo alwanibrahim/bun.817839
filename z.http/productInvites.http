@@ -1,0 +1,14 @@
+### get
+GET http://localhost:3001/product-invites
+Authorization: Bearer {{$dotenv TOKEN}}
+### Post
+POST  http://localhost:3001/product-invites
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "productId": 1,
+    "inviteLinkOrEmail": "https://misal.com?ref=7891893",
+    "assignedUserId": 1,
+    "status": "clicked"
+}

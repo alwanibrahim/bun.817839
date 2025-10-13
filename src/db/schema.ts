@@ -6,8 +6,8 @@ export const affiliateCommissions = mysqlTable("affiliate_commissions", {
     referredId: bigint("referred_id", { mode: "number", unsigned: true }).notNull().references(() => users.id, { onDelete: "cascade" }),
     depositId: bigint("deposit_id", { mode: "number", unsigned: true }).notNull().references(() => deposits.id, { onDelete: "cascade" }),
     commissionAmount: decimal("commission_amount", { precision: 15, scale: 2 }).notNull(),
-    createdAt: timestamp("created_at", { mode: 'string' }),
-    updatedAt: timestamp("updated_at", { mode: 'string' }),
+    createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
     (table) => [
         index("affiliate_commissions_referrer_id_referred_id_index").on(table.referrerId, table.referredId),
@@ -117,8 +117,8 @@ export const productInvites = mysqlTable("product_invites", {
     sentAt: timestamp("sent_at", { mode: 'string' }),
     clickedAt: timestamp("clicked_at", { mode: 'string' }),
     acceptedAt: timestamp("accepted_at", { mode: 'string' }),
-    createdAt: timestamp("created_at", { mode: 'string' }),
-    updatedAt: timestamp("updated_at", { mode: 'string' }),
+    createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
     (table) => [
         index("product_invites_product_id_status_index").on(table.productId, table.status),
@@ -133,8 +133,8 @@ export const productVariants = mysqlTable("product_variants", {
     price: decimal({ precision: 10, scale: 2 }).notNull(),
     originalPrice: decimal("original_price", { precision: 10, scale: 2 }),
     status: mysqlEnum(['READY', 'NOT_READY']).default('READY').notNull(),
-    createdAt: timestamp("created_at", { mode: 'string' }),
-    updatedAt: timestamp("updated_at", { mode: 'string' }),
+    createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
     (table) => [
         primaryKey({ columns: [table.id], name: "product_variants_id" }),

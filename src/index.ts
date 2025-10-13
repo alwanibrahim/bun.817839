@@ -1,30 +1,35 @@
 import { Elysia } from "elysia";
-import { authRoute } from "./routes/auth.route";
-import { testRoute } from "./routes/test.route";
-import { productRoute } from "./routes/product.route";
-import { categoryRoute  } from "./routes/category.route";
-import { depositeRoute } from "./routes/deposite.route";
-import { affiliateCommissionsRoute } from "./routes/affiliateCommissions.route";
-import { notificationRoute } from "./routes/notif.route";
-import { userRoute } from "./routes/user.route";
-import { productAccountsRoute } from "./routes/productAccount.route";
-import { productInvitesRoute } from "./routes/productInvites.route";
-import { productVariantsRoute } from "./routes/productVariants.route";
-import { distributionRoute } from "./routes/distribution.route";
+import { affiliateCommissionsRoute } from "./routes/backups/affiliateCommissions.route";
+import { authRoute } from "./routes/backups/auth.route";
+import { categoryRoute } from "./routes/backups/category.route";
+import { depositeRoute } from "./routes/backups/deposite.route";
+import { distributionRoute } from "./routes/backups/distribution.route";
+import { notificationRoute } from "./routes/backups/notif.route";
+import { productRoute } from "./routes/backups/product.route";
+import { productAccountsRoute } from "./routes/backups/productAccount.route";
+import { productInvitesRoute } from "./routes/backups/productInvites.route";
+import { productVariantsRoute } from "./routes/backups/productVariants.route";
+import { testRoute } from "./routes/backups/test.route";
+import { uploadRoute } from "./routes/backups/upload.route";
+import { userRoute } from "./routes/backups/user.route";
+import { adminRoutes, userRoutes } from "./routes/api.route";
 
 const app = new Elysia().get("/", () => "Hello Elysia")
-  .use(authRoute)
-  .use(testRoute)
-  .use(productRoute)
-  .use(categoryRoute)
-  .use(depositeRoute)
-  .use(affiliateCommissionsRoute)
-  .use(notificationRoute)
-  .use(userRoute)
-  .use(productAccountsRoute)
-  .use(productInvitesRoute)
-  .use(productVariantsRoute)
-  .use(distributionRoute)
+  // .use(authRoute)
+  // .use(testRoute)
+  // .use(productRoute)
+  // .use(categoryRoute)
+  // .use(depositeRoute)
+  // .use(affiliateCommissionsRoute)
+  // .use(notificationRoute)
+  // .use(userRoute)
+  // .use(productAccountsRoute)
+  // .use(productInvitesRoute)
+  // .use(productVariantsRoute)
+  // .use(distributionRoute)
+  // .use(uploadRoute)
+  .use(adminRoutes)
+  .use(userRoutes)
   .listen(3001);
 
 console.log(
