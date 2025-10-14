@@ -1,5 +1,5 @@
 ###notification
-POST http://localhost:3001/notifications
+POST http://localhost:3001/api/admin/notifications
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
@@ -11,7 +11,15 @@ Authorization: Bearer {{$dotenv TOKEN}}
 }
 
 ###get
-GET http://localhost:3001/notifications
+GET http://localhost:3001/api/notifications
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+###readall
+GET http://localhost:3001/api/notifications/read/all
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+###tandain yang sudah di baca
+PATCH  http://localhost:3001/api/notifications/3/read
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 ###delete

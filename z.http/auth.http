@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "mimin",
-    "email": "mimimin@gmail.com",
+    "email": "mamamn@gmail.com",
     "password": "santaikawan"
 }
 ####login
@@ -12,6 +12,22 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-    "email": "mimimin@gmail.com",
+    "email": "mamamn@gmail.com",
     "password": "santaikawan"
+}
+####rensed otp
+POST http://localhost:3001/api/resend-otp
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+{
+    "type": "email"
+}
+####verify otp
+POST http://localhost:3001/api/verify-otp
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+{
+    "code": "240987"
 }

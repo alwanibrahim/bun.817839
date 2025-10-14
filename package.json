@@ -20,6 +20,7 @@
     "elysia": "^1.4.11",
     "mime-types": "^3.0.1",
     "mysql2": "^3.15.2",
+    "sib-api-v3-sdk": "^8.5.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

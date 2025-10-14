@@ -1,7 +1,9 @@
+import { param } from "drizzle-orm";
 import { db } from "../db";
 import { productTypes } from "../db/schema";
 import { response } from "../utils/response";
 import {z} from 'zod'
+import {eq} from 'drizzle-orm'
 
 
 
@@ -38,6 +40,10 @@ export class ProductTypeController {
     }
     static async update(){
     }
-    static async destroy(){
+    static async destroy({params}: any){
+        const id = Number(params.id)
+        if(!id) return response.fail("masukkan id dengan benar")
+        await db.delete(productTypes).where(eq(productTypes.id, id))
+        return response.success(`data dengan id : ${id} berhasil di hapus`)
     }
 }

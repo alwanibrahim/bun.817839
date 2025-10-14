@@ -18,3 +18,13 @@ GET  http://localhost:3001/deposites
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
+####posh
+POST  http://localhost:3001/api/deposites
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+{
+    "amount": 8000,
+    "returnUrl": "https://inihanyatesting",
+    "callbackUrl": "https://inihanyatesting"
+}
