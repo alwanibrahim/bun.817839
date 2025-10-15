@@ -13,8 +13,15 @@ import { testRoute } from "./routes/backups/test.route";
 import { uploadRoute } from "./routes/backups/upload.route";
 import { userRoute } from "./routes/backups/user.route";
 import { adminRoutes, userRoutes, authRoute } from "./routes/api.route";
+import {cors} from '@elysiajs/cors'
 
 const app = new Elysia().get("/", () => "Hello Elysia")
+  .use(cors({
+    origin: ["http://localhost:3000", "https://initest.vaultsy.online"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  }))
   // .use(authRoute)
   // .use(testRoute)
   // .use(productRoute)

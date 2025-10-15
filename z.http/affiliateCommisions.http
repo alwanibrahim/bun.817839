@@ -1,6 +1,6 @@
 ###get commisions
 GET http://localhost:3001/api/commissions
-Authorization: Bearer {{$dotenv TOKEN}}
+Authorization: Bearer {{$dotenv TOKEN2}}
 ###get commisions
 GET http://localhost:3001/api/referrals
 Authorization: Bearer {{$dotenv TOKEN}}

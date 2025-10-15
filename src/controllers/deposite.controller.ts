@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { deposits } from "../db/schema";
+import { deposits, users, affiliateCommissions } from "../db/schema";
 import { response } from "../utils/response";
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
@@ -70,7 +70,7 @@ export class DepositeController {
 
             const depositId = (result as any).insertId;
 
-        
+
 
 
             const tripayResponse = await fetch(`${baseUrl}/transaction/create`, {
@@ -130,6 +130,7 @@ export class DepositeController {
     static async update({ params, body, set }: any) {
 
     }
+
     static async destroy({ params }: any) {
         const id = Number(params.id)
         await db.delete(deposits).where(eq(deposits.id, id))

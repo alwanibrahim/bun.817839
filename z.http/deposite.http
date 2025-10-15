@@ -14,7 +14,7 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
 ####get
-GET  http://localhost:3001/deposites
+GET  http://localhost:3001/api/deposites
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 

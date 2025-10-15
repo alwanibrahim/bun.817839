@@ -1,5 +1,5 @@
 ###get
-GET http://localhost:3001/distributions
+GET http://localhost:3001/api/distributions
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 ###post
