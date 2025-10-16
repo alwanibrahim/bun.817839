@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  bun-app:
+    image: app-premium/bun-app:latest
+    container_name: bun-app
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+    env_file:
+      - .env

@@ -8,7 +8,9 @@
     "push": "drizzle-kit push",
     "studio": "drizzle-kit studio",
     "introspect": "drizzle-kit introspect",
-    "api": "k6 run load.test.ts"
+    "api": "k6 run load.test.ts",
+    "build": "bun build src/index.ts --target bun --outdir dist",
+    "start": "bun run dist/index.js"
   },
   "dependencies": {
     "@elysiajs/cookie": "^0.8.0",

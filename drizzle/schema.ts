@@ -1,4 +1,4 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, index, foreignKey, primaryKey, bigint, decimal, timestamp, unique, varchar, text, mysqlEnum, tinyint, json, int } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, index, foreignKey, primaryKey, bigint, decimal, timestamp, varchar, text, unique, mysqlEnum, tinyint, json, int } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
 export const affiliateCommissions = mysqlTable("affiliate_commissions", {
@@ -7,8 +7,8 @@ export const affiliateCommissions = mysqlTable("affiliate_commissions", {
 	referredId: bigint("referred_id", { mode: "number", unsigned: true }).notNull().references(() => users.id, { onDelete: "cascade" } ),
 	depositId: bigint("deposit_id", { mode: "number", unsigned: true }).notNull().references(() => deposits.id, { onDelete: "cascade" } ),
 	commissionAmount: decimal("commission_amount", { precision: 15, scale: 2 }).notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }),
-	updatedAt: timestamp("updated_at", { mode: 'string' }),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().onUpdateNow(),
 },
 (table) => [
 	index("affiliate_commissions_referrer_id_referred_id_index").on(table.referrerId, table.referredId),
@@ -18,14 +18,13 @@ export const affiliateCommissions = mysqlTable("affiliate_commissions", {
 export const categories = mysqlTable("categories", {
 	id: bigint({ mode: "number", unsigned: true }).autoincrement().notNull(),
 	name: varchar({ length: 255 }).notNull(),
-	slug: varchar({ length: 255 }).notNull(),
+	slug: varchar({ length: 255 }),
 	description: text(),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().onUpdateNow(),
 },
 (table) => [
 	primaryKey({ columns: [table.id], name: "categories_id"}),
-	unique("categories_slug_unique").on(table.slug),
 ]);
 
 export const deposits = mysqlTable("deposits", {
@@ -80,11 +79,11 @@ export const otpCodes = mysqlTable("otp_codes", {
 	id: bigint({ mode: "number", unsigned: true }).autoincrement().notNull(),
 	userId: bigint("user_id", { mode: "number", unsigned: true }).notNull().references(() => users.id, { onDelete: "cascade" } ),
 	code: varchar({ length: 255 }).notNull(),
-	type: mysqlEnum(['email','sms']).notNull(),
+	type: mysqlEnum(['email','sms']).default('email').notNull(),
 	status: mysqlEnum(['pending','used','expired']).default('pending').notNull(),
 	expiresAt: timestamp("expires_at", { mode: 'string' }).notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }),
-	updatedAt: timestamp("updated_at", { mode: 'string' }),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().onUpdateNow(),
 },
 (table) => [
 	index("otp_codes_user_id_status_index").on(table.userId, table.status),
@@ -122,6 +121,18 @@ export const productInvites = mysqlTable("product_invites", {
 	primaryKey({ columns: [table.id], name: "product_invites_id"}),
 ]);
 
+export const productTypes = mysqlTable("product_types", {
+	id: bigint({ mode: "number" }).autoincrement().notNull(),
+	name: varchar({ length: 100 }).notNull(),
+	slug: varchar({ length: 100 }).notNull(),
+	description: text(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`(now())`),
+},
+(table) => [
+	primaryKey({ columns: [table.id], name: "product_types_id"}),
+	unique("product_types_slug_unique").on(table.slug),
+]);
+
 export const productVariants = mysqlTable("product_variants", {
 	id: bigint({ mode: "number", unsigned: true }).autoincrement().notNull(),
 	productId: bigint("product_id", { mode: "number", unsigned: true }).notNull().references(() => products.id, { onDelete: "cascade" } ),
@@ -140,18 +151,15 @@ export const productVariants = mysqlTable("product_variants", {
 export const products = mysqlTable("products", {
 	id: bigint({ mode: "number", unsigned: true }).autoincrement().notNull(),
 	name: varchar({ length: 255 }).notNull(),
-	type: mysqlEnum(['account','invite','family']).notNull(),
-	price: decimal({ precision: 15, scale: 2 }).notNull(),
-	originalPrice: decimal("original_price", { precision: 15, scale: 2 }),
+	typeId: bigint("type_id", { mode: "number" }).references(() => productTypes.id, { onDelete: "set null" } ),
 	description: text(),
 	imageUrl: varchar("image_url", { length: 255 }),
-	features: json("features"),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().onUpdateNow(),
-	categoryId: bigint("category_id", { mode: "number", unsigned: true }).references(() => categories.id),
+	categoryId: bigint("category_id", { mode: "number", unsigned: true }).references(() => categories.id, { onDelete: "set null" } ),
+	features: json().default([]),
 },
 (table) => [
-	index("products_type_index").on(table.type),
 	primaryKey({ columns: [table.id], name: "products_id"}),
 ]);
 

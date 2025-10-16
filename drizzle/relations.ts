@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { deposits, affiliateCommissions, users, productAccounts, distributions, productInvites, products, notifications, otpCodes, productVariants, categories } from "./schema";
+import { deposits, affiliateCommissions, users, productAccounts, distributions, productInvites, products, notifications, otpCodes, productVariants, categories, productTypes } from "./schema";
 
 export const affiliateCommissionsRelations = relations(affiliateCommissions, ({one}) => ({
 	deposit: one(deposits, {
@@ -96,6 +96,10 @@ export const productsRelations = relations(products, ({one, many}) => ({
 		fields: [products.categoryId],
 		references: [categories.id]
 	}),
+	productType: one(productTypes, {
+		fields: [products.typeId],
+		references: [productTypes.id]
+	}),
 }));
 
 export const notificationsRelations = relations(notifications, ({one}) => ({
@@ -120,5 +124,9 @@ export const productVariantsRelations = relations(productVariants, ({one}) => ({
 }));
 
 export const categoriesRelations = relations(categories, ({many}) => ({
+	products: many(products),
+}));
+
+export const productTypesRelations = relations(productTypes, ({many}) => ({
 	products: many(products),
 }));
