@@ -1,7 +1,8 @@
 import {z} from 'zod'
 import { db } from '../db'
-import { products } from '../db/schema'
+import { products, productTypes, productVariants } from '../db/schema'
 import { response } from '../utils/response'
+import {eq} from 'drizzle-orm'
 export class ProductController {
     static createSchema = z.object({
         name: z.string('masukkan nama product'),
@@ -15,9 +16,29 @@ export class ProductController {
     static updateProductSchema = ProductController.createSchema.partial();
 
     static async index(){
-        const data = await db.select().from(products)
-        return response.success(data, "data berhasil")
+        const productList = await db
+            .select({
+                id: products.id,
+                name: products.name,
+                description: products.description,
+                typeId: products.typeId,
+                typeName: productTypes.name,
+            })
+            .from(products)
+            .leftJoin(productTypes, eq(products.typeId, productTypes.id))
+
+        // Ambil semua variant
+        const variants = await db.select().from(productVariants)
+
+        // Gabungkan manual
+        const data = productList.map(p => ({
+            ...p,
+            variants: variants.filter(v => v.productId === p.id),
+        }))
+
+        return response.success(data, "Data produk berhasil diambil")
     }
+    
 
     static async store({body, user}: any){
         console.log("BODY MASUK:", body)

@@ -15,6 +15,14 @@ Content-Type: application/json
     "email": "mamamn@gmail.com",
     "password": "santaikawan"
 }
+####loginprodution
+POST {{$dotenv PRODUCTION}}/api/login
+Content-Type: application/json
+
+{
+    "email": "mamamn@gmail.com",
+    "password": "santaikawan"
+}
 ####rensed otp
 POST http://localhost:3001/api/resend-otp
 Content-Type: application/json

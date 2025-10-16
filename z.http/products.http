@@ -11,3 +11,8 @@ Content-Type: application/json
     "typeId": 1,
     "features": ["sangat mantap"]
 }
+
+
+###get production
+GET {{$dotenv PRODUCTION}}/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6MywiZXhwIjoxNzYxMjA5MzA2LCJpYXQiOjE3NjA2MDQ1MDZ9.EB2OweSZBVAXJVEDL4hh74I0Je8RrfyIIiNpg0idzM4
