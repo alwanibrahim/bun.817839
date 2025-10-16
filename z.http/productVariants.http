@@ -8,7 +8,20 @@ Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 
 {
-    "productId": 1,
+    "productId": 5,
+    "name": "capcut 1 bulan",
+    "duration": "1 bulan",
+    "price": "80000",
+    "originalPrice": "90000",
+    "status":"READY"
+}
+###POST
+POST {{$dotenv PRODUCTION}}/product-variant
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6NCwiZXhwIjoxNzYxMjE3MTgyLCJpYXQiOjE3NjA2MTIzODJ9.GaREe329y7TWTT9VhJepyTJBnMJfZ6AcgyaTJh_yhec
+Content-Type: application/json
+
+{
+    "productId": 5,
     "name": "capcut 1 bulan",
     "duration": "1 bulan",
     "price": "80000",
