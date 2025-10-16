@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   bun-app:
-    image: app-premium/bun-app:latest
+    image: alwnibrhim/bun-app:latest
     container_name: bun-app
     restart: always
     ports:
