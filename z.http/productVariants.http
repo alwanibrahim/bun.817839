@@ -1,5 +1,5 @@
 ###get
-GET http://localhost:3001/product-variant
+GET http://localhost:3001/api/product-variants
 Authorization: Bearer {{$dotenv TOKEN}}
 
 ###POST

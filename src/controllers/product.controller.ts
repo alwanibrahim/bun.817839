@@ -2,7 +2,7 @@ import {z} from 'zod'
 import { db } from '../db'
 import { products, productTypes, productVariants } from '../db/schema'
 import { response } from '../utils/response'
-import {eq} from 'drizzle-orm'
+import {eq, getTableColumns} from 'drizzle-orm'
 export class ProductController {
     static createSchema = z.object({
         name: z.string('masukkan nama product'),
@@ -18,11 +18,8 @@ export class ProductController {
     static async index(){
         const productList = await db
             .select({
-                id: products.id,
-                name: products.name,
-                description: products.description,
-                typeId: products.typeId,
-                typeName: productTypes.name,
+              ...getTableColumns(products),
+              typeName: productTypes.name
             })
             .from(products)
             .leftJoin(productTypes, eq(products.typeId, productTypes.id))
@@ -38,7 +35,7 @@ export class ProductController {
 
         return response.success(data, "Data produk berhasil diambil")
     }
-    
+
 
     static async store({body, user}: any){
         console.log("BODY MASUK:", body)

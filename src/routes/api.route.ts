@@ -10,6 +10,7 @@ import { ProductTypeController } from "../controllers/productTypes.controller"
 import { AuthController } from "../controllers/auth.controller"
 import { NotifController } from "../controllers/notif.controller"
 import { DistributionController } from "../controllers/distribuiton.controller"
+import { ProductVariantController } from "../controllers/productVarian.controller"
 
 
 export const userRoutes = routeGroup(
@@ -41,6 +42,7 @@ export const userRoutes = routeGroup(
         group.patch("/notifications/:id/read", NotifController.markAsRead)
         //ptoduct
         group.get("/products", ProductController.index)
+        group.get("/product-variants", ProductVariantController.index)
     }
 )
 export const authRoute = routeGroup(
