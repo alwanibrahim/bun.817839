@@ -14,6 +14,7 @@ import { uploadRoute } from "./routes/backups/upload.route";
 import { userRoute } from "./routes/backups/user.route";
 import { adminRoutes, userRoutes, authRoute } from "./routes/api.route";
 import {cors} from '@elysiajs/cors'
+import { tripayWebhook } from "./webhooks/tripay.controller";
 
 const app = new Elysia().get("/", () => "Hello Elysia")
   .use(cors({
@@ -36,6 +37,7 @@ const app = new Elysia().get("/", () => "Hello Elysia")
   // .use(distributionRoute)
   // .use(uploadRoute)
   .use(adminRoutes)
+  .use(tripayWebhook)
   .use(userRoutes)
   .use(authRoute)
   .listen(3001);

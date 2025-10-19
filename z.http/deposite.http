@@ -1,5 +1,5 @@
 ####deposite
-POST http://localhost:3001/deposites
+POST http://localhost:3001/api/deposites
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
@@ -21,7 +21,7 @@ Authorization: Bearer {{$dotenv TOKEN}}
 ####posh
 POST  http://localhost:3001/api/deposites
 Content-Type: application/json
-Authorization: Bearer {{$dotenv TOKEN}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6NywiZXhwIjoxNzYxNDU4NDE1LCJpYXQiOjE3NjA4NTM2MTV9.1IKuEnYWs0Kjt1zqImC0Pn0XBReUofltLjP85ycltRE
 
 {
     "amount": 8000,

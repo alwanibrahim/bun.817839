@@ -15,26 +15,49 @@ export class ProductController {
 
     static updateProductSchema = ProductController.createSchema.partial();
 
-    static async index(){
-        const productList = await db
-            .select({
-              ...getTableColumns(products),
-              typeName: productTypes.name
-            })
-            .from(products)
-            .leftJoin(productTypes, eq(products.typeId, productTypes.id))
+   static async index() {
+  const rows = await db
+    .select({
+      ...getTableColumns(products),
+      typeName: productTypes.name,
+      variantId: productVariants.id,
+      variantName: productVariants.name,
+      variantPrice: productVariants.price,
+      variantDuration: productVariants.duration,
+    })
+    .from(products)
+    .leftJoin(productTypes, eq(products.typeId, productTypes.id))
+    .leftJoin(productVariants, eq(productVariants.productId, products.id));
 
-        // Ambil semua variant
-        const variants = await db.select().from(productVariants)
+  // 🔁 Grouping hasil agar nested jadi { product: {...}, variants: [...] }
+  const data = Object.values(
+    rows.reduce((acc, row) => {
+      const productId = row.id;
+      if (!acc[productId]) {
+        acc[productId] = {
+          id: row.id,
+          name: row.name,
+          description: row.description,
+          typeName: row.typeName,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          variants: [],
+        };
+      }
+      if (row.variantId) {
+        acc[productId].variants.push({
+          id: row.variantId,
+          name: row.variantName,
+          price: row.variantPrice,
+          duration: row.variantDuration,
+        });
+      }
+      return acc;
+    }, {} as Record<number, any>)
+  );
 
-        // Gabungkan manual
-        const data = productList.map(p => ({
-            ...p,
-            variants: variants.filter(v => v.productId === p.id),
-        }))
-
-        return response.success(data, "Data produk berhasil diambil")
-    }
+  return response.success(data, "Data produk berhasil diambil");
+}
 
 
     static async store({body, user}: any){
