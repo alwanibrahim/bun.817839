@@ -1,6 +1,6 @@
 ###get commisions
 GET http://localhost:3001/api/commissions
-Authorization: Bearer {{$dotenv KOMISI}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6OCwiZXhwIjoxNzYxNTI4MTY0LCJpYXQiOjE3NjA5MjMzNjR9.vnFCpRKgR0DcrgIBC4eN5Jries87tCRozV0y4--XKJs
 
 ###get referrals
 GET http://localhost:3001/api/referrals

@@ -3,7 +3,7 @@ GET https://api.tokovoucher.net/member?member_code={{$dotenv MEMBER_CODE_GAME}}&
 Accept: application/json
 
 ###cek product 
-GET https://api.tokovoucher.net/produk/code?member_code={{$dotenv MEMBER_CODE_GAME}}&signature={{$dotenv SIGNATURE_DEFAULT_GAME}}&kode=FF
+GET https://api.tokovoucher.net/produk/code?member_code={{$dotenv MEMBER_CODE_GAME}}&signature={{$dotenv SIGNATURE_DEFAULT_GAME}}&kode=SUS
 Accept: application/json
 
 ###cek deposite 

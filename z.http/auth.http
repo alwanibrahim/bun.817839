@@ -13,7 +13,7 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-    "email": "santai@gmail.com",
+    "email": "beni@gmail.com",
     "password": "santaikawan"
 }
 ####loginprodution
