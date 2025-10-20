@@ -1,0 +1,15 @@
+###cek saldo 
+GET https://api.tokovoucher.net/member?member_code={{$dotenv MEMBER_CODE_GAME}}&signature={{$dotenv SIGNATURE_DEFAULT_GAME}}
+Accept: application/json
+
+###cek product 
+GET https://api.tokovoucher.net/produk/code?member_code={{$dotenv MEMBER_CODE_GAME}}&signature={{$dotenv SIGNATURE_DEFAULT_GAME}}&kode=FF
+Accept: application/json
+
+###cek deposite 
+GET https://api.tokovoucher.net/v1/deposit?member_code={{$dotenv MEMBER_CODE_GAME}}&secret={{$dotenv SIGNATURE_DEFAULT_GAME}}&nominal=100000&kode=qris
+Accept: application/json
+
+###cek user 
+GET https://dummyjson.com/users
+Accept: application/json

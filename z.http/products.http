@@ -1,6 +1,6 @@
 ###get
 GET http://localhost:3001/api/products
-Authorization: Bearer {{$dotenv TOKEN}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6OCwiZXhwIjoxNzYxNTI4MTY0LCJpYXQiOjE3NjA5MjMzNjR9.vnFCpRKgR0DcrgIBC4eN5Jries87tCRozV0y4--XKJs
 ###post
 POST  http://localhost:3001/api/admin/products
 Authorization: Bearer {{$dotenv TOKEN}}
