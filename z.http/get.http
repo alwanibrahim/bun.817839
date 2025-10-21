@@ -100,3 +100,8 @@ GET   http://localhost:3001/product-variant
 Authorization: Bearer {{$dotenv TOKEN}}
 
 
+
+###redis
+GET   http://localhost:3000/get
+
+

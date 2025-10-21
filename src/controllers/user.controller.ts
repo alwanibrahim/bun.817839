@@ -3,6 +3,7 @@ import { users } from "../db/schema";
 import { response } from "../utils/response";
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
+import {redis} from '../redis'
 
 export class UserController {
     static  createUserSchema = z.object({
@@ -19,13 +20,34 @@ export class UserController {
 
     static updateUserSchema = UserController.createUserSchema.partial();
     static async index() {
+        const cacheKey = `users:all`;
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+            console.log("data users dari cache");
+            const parsed = JSON.parse(cached);
+            return response.success(parsed, "data users dari cache");
+        }
         const data = await db.select().from(users)
+        // simpan ke redis dengan expired 5 menit
+        await redis.set(cacheKey, JSON.stringify(data), "EX", 300);
+        console.log("data users dari db");
         return response.success(data, "data berhasil")
     }
 
     static async me({user}: any) {
+        const cacheKey = `user:me:${user.id}`;
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+            console.log("data user dari cache");
+            const parsed = JSON.parse(cached);
+            return response.success(parsed, "data user dari cache");
+        }
+
         const data = await db.select().from(users).where(eq(users.id, user.id)).limit(2)
         if(!data) return response.fail("data tidak di temukan")
+        // simpan ke redis dengan expired 5 menit
+        await redis.set(cacheKey, JSON.stringify(data), "EX", 300);
+        console.log("data user dari db");
             return response.success(data, "data berhasil")
 
     }

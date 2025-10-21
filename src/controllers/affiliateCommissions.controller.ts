@@ -1,8 +1,10 @@
+import { redis } from '../redis';
 import { db } from "../db";
 import { affiliateCommissions, users, deposits } from "../db/schema";
 import { response } from "../utils/response";
 import { eq, desc, sql, and } from "drizzle-orm";
 import { z } from "zod";
+
 
 export class AffiliateController {
     static createAffiliateCommissionSchema = z.object({
@@ -22,6 +24,13 @@ export class AffiliateController {
         const page = Number(query.page ?? 1);
         const limit = 15;
         const offset = (page - 1) * limit;
+        const cacheKey = `affiliate:commissions:user:${user.id}:page:${page}`;
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+            console.log("data komisi dari cache");
+            const parsed = JSON.parse(cached);
+            return response.success(parsed, "data komisi dari cache");
+        }
 
         const data = await db
             .select({
@@ -46,6 +55,9 @@ export class AffiliateController {
             .orderBy(desc(affiliateCommissions.createdAt))
             .limit(limit)
             .offset(offset);
+        // simpan ke redis dengan expired 5 menit
+        await redis.set(cacheKey, JSON.stringify(data), "EX", 300);
+        console.log("data komisi dari db");
 
         return response.success(data, "Data komisi");
     }
@@ -57,6 +69,13 @@ export class AffiliateController {
         const page = Number(query.page ?? 1);
         const limit = 15;
         const offset = (page - 1) * limit;
+        const cacheKey = `affiliate:referrals:user:${user.id}:page:${page}`;
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+            console.log("data referral dari cache");
+            const parsed = JSON.parse(cached);
+            return response.success(parsed, "data referral dari cache");
+        }
 
         const referrals = await db
             .select({
@@ -75,6 +94,9 @@ export class AffiliateController {
             .orderBy(desc(users.createdAt))
             .limit(limit)
             .offset(offset);
+        // simpan ke redis dengan expired 5 menit
+        await redis.set(cacheKey, JSON.stringify(referrals), "EX", 300);
+        console.log("data referral dari db");
 
         return response.success(referrals, "Data referral");
     }
@@ -83,6 +105,13 @@ export class AffiliateController {
     // 📊 GET /affiliate/stats
     // ========================
     static async stats({ user }: any) {
+        const cacheKey = `affiliate:stats:user:${user.id}`;
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+            console.log("data stats dari cache");
+            const parsed = JSON.parse(cached);
+            return response.success(parsed, "data stats dari cache");
+        }
         // ✅ total referral
         const [refCount] = await db
             .select({ totalReferrals: sql<number>`COUNT(*)` })
@@ -114,6 +143,15 @@ export class AffiliateController {
                     sql`YEAR(${affiliateCommissions.createdAt}) = YEAR(NOW())`
                 )
             );
+        // simpan ke redis dengan expired 5 menit
+        const statsData = {
+            referral_code: user.referralCode,
+            total_referrals: refCount?.totalReferrals ?? 0,
+            total_commissions: totalCom?.totalCommissions ?? 0,
+            this_month_commissions: monthCom?.thisMonthCommissions ?? 0,
+        };
+        await redis.set(cacheKey, JSON.stringify(statsData), "EX", 300);
+        console.log("data stats dari db");
 
         // ✅ hasil akhir
         return response.success(

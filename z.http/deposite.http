@@ -21,7 +21,7 @@ Authorization: Bearer {{$dotenv TOKEN}}
 ####posh
 POST  http://localhost:3001/api/deposites
 Content-Type: application/json
-Authorization: Bearer {{$dotenv KOMISI}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6Ik1vaCBBbHdhbiBJYnJhaGltIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzZXNzaW9uS2V5Ijo4LCJleHAiOjE3NjE1NjgyNTgsImlhdCI6MTc2MDk2MzQ1OH0.B315Om7XxdaFM3Wg1aCo1E6CVmFexlHi4dAkEX3V0PU
 
 {
     "amount": 100000,

@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import {redis} from './redis'
 import { affiliateCommissionsRoute } from "./routes/backups/affiliateCommissions.route";
 // import { authRoute } from "./routes/backups/auth.route";
 import { categoryRoute } from "./routes/backups/category.route";
@@ -15,6 +16,8 @@ import { userRoute } from "./routes/backups/user.route";
 import { adminRoutes, userRoutes, authRoute } from "./routes/api.route";
 import {cors} from '@elysiajs/cors'
 import { tripayWebhook } from "./webhooks/tripay.controller";
+
+
 
 const app = new Elysia().get("/", () => "Hello Elysia")
   .use(cors({
@@ -41,7 +44,9 @@ const app = new Elysia().get("/", () => "Hello Elysia")
   .use(userRoutes)
   .use(authRoute)
   .listen(3001);
+  
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
+

@@ -1,14 +1,29 @@
-###get
-GET http://localhost:3001/product-account
+### GET - Ambil 10 akun produk terbaru
+GET http://localhost:3001/api/product-accounts
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
-###POST
-POST http://localhost:3001/product-account
+
+### POST - Tambah akun produk baru
+POST http://localhost:3001/api/product-accounts
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
 {
-    "productId": 1,
-    "username": "mimin@gmail.com"
-
+  "productId": 5,
+  "username": "akun.testing@gmail.com",
+  "password": "rahasia123",
+  "isUsed": 0
 }
+
+### PUT - Update akun produk
+PUT http://localhost:3001/api/product-accounts/1
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+{
+  "isUsed": 1
+}
+
+### DELETE - Hapus akun produk
+DELETE http://localhost:3001/api/product-accounts/1
+Authorization: Bearer {{$dotenv TOKEN}}

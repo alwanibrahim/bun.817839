@@ -11,6 +11,9 @@ import { AuthController } from "../controllers/auth.controller"
 import { NotifController } from "../controllers/notif.controller"
 import { DistributionController } from "../controllers/distribuiton.controller"
 import { ProductVariantController } from "../controllers/productVarian.controller"
+import { apiKeyGuard } from "../plugins/apiKeyGuard"
+import { ProductAccountController } from "../controllers/productAccount.controller"
+import { ProductInviteController } from "../controllers/productInvites.controller"
 
 
 export const userRoutes = routeGroup(
@@ -18,13 +21,13 @@ export const userRoutes = routeGroup(
     [jwtPlugin, requireAuth, requireRole(["user", "admin"])],
     (group) => {
         //categories
-        group.get("/categories", CategoriyController.index)
         //commisions
         group.get("/commissions", AffiliateController.commissions)
         group.get("/referrals", AffiliateController.referrals)
         group.get("/stats", AffiliateController.stats)
         //distribution
         group.get("/distributions", DistributionController.index)
+        group.post("/distributions", DistributionController.store)
         group.get("/distributions/:id", DistributionController.destroy)
         //deposites
         group.get("/deposites", DepositeController.index)
@@ -32,7 +35,6 @@ export const userRoutes = routeGroup(
         //user
         group.get("/me", UserController.me)
         //producttype
-        group.get("/product-types", ProductTypeController.index)
         //otp
         group.post("/resend-otp", AuthController.resendOtp)
         group.post("/verify-otp", AuthController.verifyOtp)
@@ -40,17 +42,29 @@ export const userRoutes = routeGroup(
         group.get("/notifications", NotifController.index)
         group.get("/notifications/read/all", NotifController.markAllRead)
         group.patch("/notifications/:id/read", NotifController.markAsRead)
-        //ptoduct
-        group.get("/products", ProductController.index)
-        group.get("/product-variants", ProductVariantController.index)
+        .get("/products", ProductController.index)
+        .get("/categories", CategoriyController.index)
+        .get("/product-types", ProductTypeController.index)
+        .get("/product-variants", ProductVariantController.index)
+        //product-accounts
+        .get("/product-accounts", ProductAccountController.index)
+        .post("/product-accounts", ProductAccountController.store)
+        .put("/product-accounts/:id", ProductAccountController.update)
+        .delete("/product-accounts/:id", ProductAccountController.destroy)
+        //product-invites
+        .get("/product-invites", ProductInviteController.index)
+        .post("/product-invites", ProductInviteController.store)
+        .put("/product-invites/:id", ProductInviteController.update)
+        .delete("/product-invites/:id", ProductInviteController.destroy)
     }
 )
 export const authRoute = routeGroup(
     "/api",
     [],
     (group) => {
-        group.post("/register", AuthController.register)
-        group.post("/login", AuthController.login)
+        group.use(apiKeyGuard)
+        .post("/register", AuthController.register)
+        .post("/login", AuthController.login)
     }
 )
 
@@ -58,6 +72,7 @@ export const adminRoutes = routeGroup(
     "/api/admin",
     [jwtPlugin, requireAuth, requireRole(["admin"])],
     (group) => {
+        
         group.post("/notifications", NotifController.store)
 
         group.post("/product-types", ProductTypeController.store)

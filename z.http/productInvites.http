@@ -1,14 +1,30 @@
-### get
-GET http://localhost:3001/product-invites
-Authorization: Bearer {{$dotenv TOKEN}}
-### Post
-POST  http://localhost:3001/product-invites
-Authorization: Bearer {{$dotenv TOKEN}}
+### GET - Ambil 10 undangan produk terbaru
+GET http://localhost:3001/api/product-invites
 Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+### POST - Tambah undangan baru
+POST http://localhost:3001/api/product-invites
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
 
 {
-    "productId": 1,
-    "inviteLinkOrEmail": "https://misal.com?ref=7891893",
-    "assignedUserId": 1,
-    "status": "clicked"
+  "productId": 5,
+  "inviteLinkOrEmail": "https://example.com/join?ref=7891893",
+  "assignedUserId": 1,
+  "status": "clicked"
 }
+
+### PUT - Update undangan (ubah status)
+PUT http://localhost:3001/api/product-invites/1
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}}
+
+{
+  "status": "accepted",
+  "acceptedAt": "2025-10-21 13:00:00"
+}
+
+### DELETE - Hapus undangan
+DELETE http://localhost:3001/api/product-invites/1
+Authorization: Bearer {{$dotenv TOKEN}}
