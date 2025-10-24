@@ -5,7 +5,7 @@ import { eq, sql, and } from 'drizzle-orm'
 import { z } from 'zod'
 
 const createNotificationSchema = z.object({
-    userId: z.number().int(),
+    userId: z.number().int().optional(),
     title: z.string('masukkan title').min(3, 'masukkan minimal 3 karakter'),
     message: z.string("masukkan message"),
     type: z.enum(["system", "admin"])
@@ -19,16 +19,41 @@ export class NotifController {
         return response.success(data, "data berhasil")
     }
     static async store({ body, user, set }: any) {
-
         const parsed = createNotificationSchema.safeParse(body);
         if (!parsed.success) {
             set.status = 422;
-            return response.fail(parsed.error.issues.map((e)=> e.message).join(", "), 422);
+            return response.fail(parsed.error.issues.map((e) => e.message).join(", "), 422);
         }
 
         const { userId, title, message, type } = parsed.data;
 
-        // pastikan user_id valid
+        // kalau userId tidak dikirim → kirim ke semua user
+        if (!userId) {
+            const allUsers = await db.select({ id: users.id }).from(users);
+
+            if (!allUsers.length) {
+                set.status = 404;
+                return response.fail("Tidak ada user untuk dikirimi notifikasi");
+            }
+
+            const notifData = allUsers.map((u) => ({
+                userId: u.id,
+                title,
+                message,
+                type,
+                isRead: 0,
+            }));
+
+            await db.insert(notifications).values(notifData);
+            return response.success({
+                userId: userId, 
+                title: title, 
+                message: message, 
+                type: type
+            }, "Notifikasi dikirim ke semua user");
+        }
+
+        // kalau userId ada → validasi
         const [userExists] = await db
             .select({ id: users.id })
             .from(users)
@@ -40,14 +65,13 @@ export class NotifController {
             return response.fail("User tidak ditemukan");
         }
 
-        // insert ke tabel notifications
+        // insert single notifikasi
         const result = await db.insert(notifications).values({
-            userId: user.id,
+            userId,
             title,
             message,
             type,
             isRead: 0,
-
         });
 
         const notificationId = (result as any).insertId;
@@ -66,10 +90,9 @@ export class NotifController {
             },
             "Notifikasi berhasil dibuat"
         );
-
     }
 
-    static async markAsRead({params, set}: any){
+    static async markAsRead({ params, set }: any) {
         const notificationId = Number(params.id);
 
         if (isNaN(notificationId)) {
@@ -90,7 +113,7 @@ export class NotifController {
 
         await db
             .update(notifications)
-            .set({ isRead: 1})
+            .set({ isRead: 1 })
             .where(eq(notifications.id, notificationId));
 
         return response.success(
@@ -99,7 +122,7 @@ export class NotifController {
         );
     }
 
-    static async markAllRead({user}: any){
+    static async markAllRead({ user }: any) {
         await db
             .update(notifications)
             .set({ isRead: 1 })
@@ -110,7 +133,7 @@ export class NotifController {
             "Semua notifikasi ditandai sudah dibaca"
         );
     }
-    static async unReadCount({user}: any){
+    static async unReadCount({ user }: any) {
         const [count] = await db
             .select({ unread_count: sql<number>`COUNT(*)` })
             .from(notifications)

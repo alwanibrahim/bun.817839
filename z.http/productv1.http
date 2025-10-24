@@ -1,0 +1,18 @@
+###get
+GET http://localhost:3001/api/products/v1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6OCwiZXhwIjoxNzYxNTI4MTY0LCJpYXQiOjE3NjA5MjMzNjR9.vnFCpRKgR0DcrgIBC4eN5Jries87tCRozV0y4--XKJs
+###post
+POST  http://localhost:3001/api/products/v1
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "minuman",
+    "typeId": 1,
+    "features": ["sangat mantap"]
+}
+
+
+###get production
+GET {{$dotenv PRODUCTION}}/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6NCwiZXhwIjoxNzYxMjE3MTgyLCJpYXQiOjE3NjA2MTIzODJ9.GaREe329y7TWTT9VhJepyTJBnMJfZ6AcgyaTJh_yhec

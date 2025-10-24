@@ -2,7 +2,7 @@
 GET http://localhost:3001/api/product-types
 Authorization: Bearer {{$dotenv TOKEN}}
 ###post
-POST  http://localhost:3001/api/product-types
+POST  http://localhost:3001/api/admin/product-types
 Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 

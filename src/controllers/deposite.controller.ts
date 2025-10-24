@@ -4,7 +4,7 @@ import { response } from "../utils/response";
 import { eq, desc } from 'drizzle-orm'
 import { z } from 'zod'
 import crypto from 'crypto'
-import {redis} from '../redis'
+import { redis } from '../redis'
 export class DepositeController {
     static createSchema = z.object({
         userId: z.coerce.number().positive("masukkan yang valid"),
@@ -23,34 +23,34 @@ export class DepositeController {
     });
 
     static updateDepositSchema = DepositeController.createSchema.partial();
-     static async index() {
-    try {
-      const cacheKey = "deposits:latest5";
+    static async index() {
+        try {
+            const cacheKey = "deposits:latest5";
 
-      // 🔹 1. Coba ambil dari cache dulu
-      const cached = await redis.get(cacheKey);
-      if (cached) {
-        console.log("✅ From Redis Cache");
-        return response.success(JSON.parse(cached), "Data berhasil (cache)");
-      }
+            // 🔹 1. Coba ambil dari cache dulu
+            const cached = await redis.get(cacheKey);
+            if (cached) {
+                console.log("✅ From Redis Cache");
+                return response.success(JSON.parse(cached), "Data berhasil (cache)");
+            }
 
-      // 🔹 2. Kalau gak ada di cache, ambil dari DB
-      const data = await db
-        .select()
-        .from(deposits)
-        .orderBy(desc(deposits.id))
-        .limit(5);
+            // 🔹 2. Kalau gak ada di cache, ambil dari DB
+            const data = await db
+                .select()
+                .from(deposits)
+                .orderBy(desc(deposits.id))
+                .limit(5);
 
-      // 🔹 3. Simpan ke Redis (expired 60 detik)
-      await redis.set(cacheKey, JSON.stringify(data), "EX", 60);
+            // 🔹 3. Simpan ke Redis (expired 60 detik)
+            await redis.set(cacheKey, JSON.stringify(data), "EX", 60);
 
-      console.log("📦 From Database");
-      return response.success(data, "Data berhasil (DB)");
-    } catch (err: any) {
-      console.error("Deposit Index Error:", err);
-      return response.fail(err?.message ?? "Internal Server Error", 500);
+            console.log("📦 From Database");
+            return response.success(data, "Data berhasil (DB)");
+        } catch (err: any) {
+            console.error("Deposit Index Error:", err);
+            return response.fail(err?.message ?? "Internal Server Error", 500);
+        }
     }
-  }
 
     static async store({ body, user, set }: any) {
         try {
@@ -126,6 +126,7 @@ export class DepositeController {
                     callback_url: callbackUrl ?? null,
                     expired_time: Math.floor(Date.now() / 1000) + 60 * 60, // 1 jam
                     signature,
+                    fee_customer: false
                 }),
             });
 
@@ -144,6 +145,9 @@ export class DepositeController {
                     .set({ paymentUrl: qrUrl })
                     .where(eq(deposits.reference, merchantRef)); // pakai reference karena lebih aman
             }
+
+            const result = await redis.del("deposits:latest5");
+            console.log("🧹 Redis deleted count:", result); // 
 
             // ✅ 9. Return ke client
             return response.success(

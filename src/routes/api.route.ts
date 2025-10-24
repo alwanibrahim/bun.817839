@@ -14,6 +14,7 @@ import { ProductVariantController } from "../controllers/productVarian.controlle
 import { apiKeyGuard } from "../plugins/apiKeyGuard"
 import { ProductAccountController } from "../controllers/productAccount.controller"
 import { ProductInviteController } from "../controllers/productInvites.controller"
+import { ProductControllerV1 } from "../controllers/product.v1.controller"
 
 
 export const userRoutes = routeGroup(
@@ -46,16 +47,18 @@ export const userRoutes = routeGroup(
         .get("/categories", CategoriyController.index)
         .get("/product-types", ProductTypeController.index)
         .get("/product-variants", ProductVariantController.index)
-        //product-accounts
-        .get("/product-accounts", ProductAccountController.index)
-        .post("/product-accounts", ProductAccountController.store)
-        .put("/product-accounts/:id", ProductAccountController.update)
-        .delete("/product-accounts/:id", ProductAccountController.destroy)
-        //product-invites
-        .get("/product-invites", ProductInviteController.index)
-        .post("/product-invites", ProductInviteController.store)
-        .put("/product-invites/:id", ProductInviteController.update)
-        .delete("/product-invites/:id", ProductInviteController.destroy)
+            //product-accounts
+            .get("/product-accounts", ProductAccountController.index)
+            .post("/product-accounts", ProductAccountController.store)
+            .put("/product-accounts/:id", ProductAccountController.update)
+            .delete("/product-accounts/:id", ProductAccountController.destroy)
+            //product-invites
+            .get("/product-invites", ProductInviteController.index)
+            .post("/product-invites", ProductInviteController.store)
+            .put("/product-invites/:id", ProductInviteController.update)
+            .delete("/product-invites/:id", ProductInviteController.destroy)
+
+        .put("/user/:id", UserController.update)
     }
 )
 export const authRoute = routeGroup(
@@ -65,6 +68,13 @@ export const authRoute = routeGroup(
         group.use(apiKeyGuard)
         .post("/register", AuthController.register)
         .post("/login", AuthController.login)
+        
+            //productv1
+            .get("/products/v1", ProductControllerV1.index)         // ambil semua
+            .post("/products/v1", ProductControllerV1.store)        // tambah baru
+            .patch("/products/v1/:id", ProductControllerV1.update)  // update 1 produk
+            .delete("/products/v1/:id", ProductControllerV1.destroy) // hapus produk
+
     }
 )
 
@@ -72,7 +82,7 @@ export const adminRoutes = routeGroup(
     "/api/admin",
     [jwtPlugin, requireAuth, requireRole(["admin"])],
     (group) => {
-        
+
         group.post("/notifications", NotifController.store)
 
         group.post("/product-types", ProductTypeController.store)

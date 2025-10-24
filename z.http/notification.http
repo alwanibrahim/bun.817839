@@ -4,10 +4,10 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
 {
-    "userId": 1,
+    
     "title": "ini adalah notif",
     "message": "ini adalaha messgae",
-    "type": "admin"
+    "type": "system"
 }
 
 ###get

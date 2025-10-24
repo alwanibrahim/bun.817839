@@ -54,20 +54,20 @@ export class ProductAccountController {
       }
 
       const data = parse.data;
-     const payload = {
-  productId: data.productId,
-  username: data.username,
-  password: data.password ?? "masuk123",
-  isUsed: data.isUsed ?? 0,
+      const payload = {
+        productId: data.productId,
+        username: data.username,
+        password: data.password ?? "masuk123",
+        isUsed: data.isUsed ?? 0,
 
-};
+      };
 
 
       const result = await db.insert(productAccounts).values(payload);
 
       await redis.del("productAccounts:latest10");
 
-      return response.success(result, "Akun produk berhasil dibuat");
+      return response.success(data, "Akun produk berhasil dibuat");
     } catch (err: any) {
       console.error("ProductAccount Store Error:", err);
       set.status = 500;

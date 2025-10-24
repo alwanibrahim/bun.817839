@@ -1,3 +1,12 @@
 ###get
 GET http://localhost:3001/api/me
 Authorization: Bearer {{$dotenv TOKEN}}
+###get
+PUT http://localhost:3001/api/user/1
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "Updated Name",
+    "email": "alwanibrahim142@gmail.com"
+}       

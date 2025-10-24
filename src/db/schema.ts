@@ -142,7 +142,7 @@ export const productVariants = mysqlTable("product_variants", {
 export const productTypes = mysqlTable("product_types", {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
     name: varchar("name", { length: 100 }).notNull(), // ex: "Account"
-    slug: varchar("slug", { length: 100 }).notNull().unique(), // ex: "account"
+    slug: varchar("slug", { length: 100 }).notNull(), // ex: "account"
     description: text("description"),
     createdAt: timestamp("created_at").defaultNow(),
 })
@@ -189,8 +189,8 @@ export const users = mysqlTable("users", {
     isVerified: boolean("is_verified").default(false).notNull(),
     role: mysqlEnum(['admin', 'user']).default('user').notNull(),
     sessionKey: int("session_key").default(1),
-    createdAt: timestamp("created_at", { mode: 'string' }),
-    updatedAt: timestamp("updated_at", { mode: 'string' }),
+    createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
     (table) => [
         index("users_referral_code_referred_by_index").on(table.referralCode, table.referredBy),
