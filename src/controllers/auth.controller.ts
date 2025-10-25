@@ -56,6 +56,7 @@ export class AuthController {
             id: data[0].id,
             name: data[0].name,
             email: data[0].email,
+            role: data[0].role,
             sessionKey: newSessionKey
         })
 

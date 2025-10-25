@@ -8,9 +8,23 @@ Content-Type: application/json
 
 {
     "name": "minuman",
-    "typeId": 1,
-    "features": ["sangat mantap"]
+    "typeId": 1
+    
 }
+###post
+PUT  http://localhost:3001/api/admin/products/8
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "makanan",
+    "typeId": 1
+    
+}
+###post
+DELETE   http://localhost:3001/api/admin/products/8
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
 
 
 ###get production

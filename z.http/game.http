@@ -12,4 +12,14 @@ Accept: application/json
 
 ###cek user 
 GET https://dummyjson.com/users
-Accept: application/json
+Accept: application/jso
+
+
+###game saya 
+POST http://localhost:3001/api/topup
+Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}} 
+
+{
+    "idGame": 122441889
+}
