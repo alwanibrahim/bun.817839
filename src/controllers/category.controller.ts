@@ -46,7 +46,25 @@ export class CategoriyController {
             description
         ])
     }
-    static async update(){
+    static async update({params, body}: any){
+        const id = Number(params.id)
+        const parse = CategoriyController.createSchema.safeParse(body)
+        if (!parse.success) return response.fail(parse.error.issues.map((e) => e.message).join(", "), 422)
+            const {name, slug, description} = parse.data
+
+        await db.update(categories).set({
+            name,
+            slug,
+            description
+        }).where(eq(categories.id, id))
+
+        await redis.del('cache:categories') // menghapus cache setelah data berubah
+
+        return response.success([
+            name,
+            slug,
+            description
+        ])
     }
     static async destroy({params}: any){
         const id = Number(params.id)
