@@ -11,3 +11,6 @@ Authorization: Bearer {{$dotenv TOKEN}}
 ###get
 GET http://localhost:3001/api/categories
 Authorization: Bearer {{$dotenv TOKEN}}
+###get
+DELETE http://localhost:3001/api/admin/categories/14
+Authorization: Bearer {{$dotenv TOKEN}}

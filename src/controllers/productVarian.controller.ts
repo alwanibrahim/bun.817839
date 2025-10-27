@@ -9,8 +9,8 @@ export class ProductVariantController {
         productId: z.number(),
         name: z.string().min(1),
         duration: z.string().optional(),
-        price: z.number(),
-        originalPrice: z.number().optional(),
+        price: z.coerce.number(),
+        originalPrice: z.coerce.number().optional(),
         status: z.enum(["READY", "NOT_READY"]).default("READY"),
     });
 
@@ -32,11 +32,51 @@ export class ProductVariantController {
             status: "READY", // pastikan schema-nya cocok
         })
 
+        return response.success({
+            name,
+            price,
+            productId,
+            duration,
+            originalPrice,
+            status
+        }, "data berhasil") 
+
 
     }
-    static async update({ params, body, set }: any) {
+    static async update({ params, body }: any) {
+        const id = Number(params.id);
 
+        const existing = await db.query.productVariants.findFirst({
+            where: eq(productVariants.id, id),
+        });
+        if (!existing) return response.fail("Data tidak ditemukan", 404);
+
+        const parsed = ProductVariantController.updateProductVariantSchema.safeParse(body);
+        if (!parsed.success)
+            return response.fail(parsed.error.issues.map(e => e.message).join(", "), 422);
+
+        const data = parsed.data;
+
+        await db.update(productVariants)
+            .set({
+                name: data.name ?? existing.name,
+                price: data.price?.toFixed(2), 
+                productId: data.productId ?? existing.productId,
+                duration: data.duration ?? existing.duration,
+                originalPrice: data.originalPrice?.toFixed(2),
+                status: data.status ?? existing.status,
+            })
+            .where(eq(productVariants.id, id));
+
+        return response.success(
+            {
+                ...existing,
+                ...data,
+            },
+            "Data berhasil diupdate"
+        );
     }
+
     static async destroy({ params }: any) {
         const id = Number(params.id)
         await db.delete(productVariants).where(eq(productVariants.id, id))

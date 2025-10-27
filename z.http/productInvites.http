@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
 ### POST - Tambah undangan baru
-POST http://localhost:3001/api/product-invites
+POST http://localhost:3001/api/admin/product-invites
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 
@@ -26,5 +26,5 @@ Authorization: Bearer {{$dotenv TOKEN}}
 }
 
 ### DELETE - Hapus undangan
-DELETE http://localhost:3001/api/product-invites/1
+DELETE http://localhost:3001/api/admin/product-invites/5
 Authorization: Bearer {{$dotenv TOKEN}}

@@ -2,6 +2,8 @@ import { db } from "../db";
 import { categories } from "../db/schema";
 import { response } from "../utils/response";
 import {z} from 'zod'
+import {eq} from 'drizzle-orm'
+import {redis} from '../redis'
 
 
 export class CategoriyController {
@@ -12,7 +14,16 @@ export class CategoriyController {
         description: z.string("masukkan slug ").min(3, "minimal 3 karakter").optional()
     })
     static async index(){
+        const cachekeys = 'cache:categories';
+        const cached = await redis.get(cachekeys)
+        if (cached) {
+          console.log("data dari cache category")
+          const parsed = JSON.parse(cached)
+          return response.success(parsed, "data dari category real")
+    
+        }
         const data = await db.select().from(categories)
+        await redis.set(cachekeys, JSON.stringify(data),'EX',  60 * 60 ) // 1 jam  
         return response.success(data, "data berhasil")
     }
     static async store({body, set}: any){
@@ -24,7 +35,10 @@ export class CategoriyController {
             name,
             slug,
             description
-        })
+        })  
+
+        await redis.del('cache:categories') // menghapus cache setelah data berubah
+
 
         return response.success([
             name,
@@ -34,6 +48,10 @@ export class CategoriyController {
     }
     static async update(){
     }
-    static async destroy(){
+    static async destroy({params}: any){
+        const id = Number(params.id)
+        await db.delete(categories).where(eq(categories.id, id))
+        await redis.del('cache:categories') // menghapus cache setelah data berubah
+        return response.success(null, "kategori berhasil dihapus")
     }
 }

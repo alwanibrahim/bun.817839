@@ -1,4 +1,7 @@
 ###get
+GET http://localhost:3001/api/admin/users
+Authorization: Bearer {{$dotenv TOKEN}}
+###get
 GET http://localhost:3001/api/me
 Authorization: Bearer {{$dotenv TOKEN}}
 ###get
@@ -10,3 +13,8 @@ Content-Type: application/json
     "name": "Updated Name",
     "email": "alwanibrahim142@gmail.com"
 }       
+###get
+DELETE  http://localhost:3001/api/admin/user/7
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+

@@ -6,6 +6,7 @@ import { eq, and,desc, sql, lte, gt } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
 // @ts-ignore
 import SibApiV3Sdk from "sib-api-v3-sdk";
+import {redis} from '../redis'
 
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
@@ -59,6 +60,8 @@ export class AuthController {
             role: data[0].role,
             sessionKey: newSessionKey
         })
+
+      
 
         return response.success({
             token, user: {

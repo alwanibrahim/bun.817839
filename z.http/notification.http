@@ -11,7 +11,7 @@ Authorization: Bearer {{$dotenv TOKEN}}
 }
 
 ###get
-GET http://localhost:3001/api/notifications
+GET http://localhost:3001/api/admin/notifications
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 ###readall
@@ -23,6 +23,6 @@ PATCH  http://localhost:3001/api/notifications/3/read
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}
 ###delete
-DELETE  http://localhost:3001/notifications/1
+DELETE  http://localhost:3001/api/admin/notifications/18
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}}

@@ -10,3 +10,16 @@ Content-Type: application/json
     "name": "account",
     "slug": "account"
 }
+###post
+PUT  http://localhost:3001/api/admin/product-types/4
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "mimin",
+    "slug": "mimin"
+}
+###delete
+DELETE  http://localhost:3001/api/admin/product-types/4
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json

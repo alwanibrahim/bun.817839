@@ -3,7 +3,7 @@ GET http://localhost:3001/api/product-variants
 Authorization: Bearer {{$dotenv TOKEN}}
 
 ###POST
-POST http://localhost:3001/product-variant
+POST http://localhost:3001/api/admin/product-variants
 Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 
@@ -15,16 +15,21 @@ Content-Type: application/json
     "originalPrice": "90000",
     "status":"READY"
 }
-###POST
-POST {{$dotenv PRODUCTION}}/product-variant
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6NCwiZXhwIjoxNzYxMjE3MTgyLCJpYXQiOjE3NjA2MTIzODJ9.GaREe329y7TWTT9VhJepyTJBnMJfZ6AcgyaTJh_yhec
+###PUT
+PUT http://localhost:3001/api/admin/product-variants/5
 Content-Type: application/json
+Authorization: Bearer {{$dotenv TOKEN}} 
 
 {
     "productId": 5,
-    "name": "capcut 1 bulan",
-    "duration": "1 bulan",
-    "price": "80000",
-    "originalPrice": "90000",
+    "name": "capcut 3 bulan",
+    "duration": "3 bulan",
+    "price": "200000",
+    "originalPrice": "250000",
     "status":"READY"
 }
+
+###delete
+DELETE  http://localhost:3001/api/admin/product-variants/8
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json

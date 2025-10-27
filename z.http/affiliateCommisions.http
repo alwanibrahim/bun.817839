@@ -1,4 +1,7 @@
-###get commisions
+###get all commissions admin
+GET http://localhost:3001/api/admin/affiliate/commissions
+Authorization: Bearer {{$dotenv TOKEN}}
+
 GET http://localhost:3001/api/commissions
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6OCwiZXhwIjoxNzYxNTI4MTY0LCJpYXQiOjE3NjA5MjMzNjR9.vnFCpRKgR0DcrgIBC4eN5Jries87tCRozV0y4--XKJs
 
@@ -8,3 +11,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6I
 ###get commisions
 GET http://localhost:3001/api/stats
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6Im1pbWluIiwiZW1haWwiOiJtYW1hbW5AZ21haWwuY29tIiwic2Vzc2lvbktleSI6OCwiZXhwIjoxNzYxNTI4MTY0LCJpYXQiOjE3NjA5MjMzNjR9.vnFCpRKgR0DcrgIBC4eN5Jries87tCRozV0y4--XKJs
+###delete affiliate
+DELETE  http://localhost:3001/api/admin/affiliate/1
+Authorization: Bearer {{$dotenv TOKEN}}

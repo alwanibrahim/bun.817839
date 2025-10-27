@@ -42,39 +42,32 @@ export const userRoutes = routeGroup(
         //user
         group.get("/me", UserController.me)
         group.put("/user/:id", UserController.update)
-
-
+        
+        
         //otp
         group.post("/resend-otp", AuthController.resendOtp)
         group.post("/verify-otp", AuthController.verifyOtp)
 
 
         //notifikasi
-        group.get("/notifications", NotifController.index)
         group.get("/notifications/read/all", NotifController.markAllRead)
         group.patch("/notifications/:id/read", NotifController.markAsRead)
-
+        
         //products
         group.get("/products", ProductController.index)
-
+        
         //categories
         group.get("/categories", CategoriyController.index)
 
         //product-type
         group.get("/product-types", ProductTypeController.index)
-
+        
         //product-variant
         group.get("/product-variants", ProductVariantController.index)
         //product-accounts
         group.get("/product-accounts", ProductAccountController.index)
-        group.post("/product-accounts", ProductAccountController.store)
-        group.put("/product-accounts/:id", ProductAccountController.update)
-        group.delete("/product-accounts/:id", ProductAccountController.destroy)
         //product-invites
         group.get("/product-invites", ProductInviteController.index)
-        group.post("/product-invites", ProductInviteController.store)
-        group.put("/product-invites/:id", ProductInviteController.update)
-        group.delete("/product-invites/:id", ProductInviteController.destroy)
 
         //game
         group.post("/topup", GameTopupController.topup)
@@ -87,7 +80,7 @@ export const authRoute = routeGroup(
         group.use(apiKeyGuard)
         group.post("/register", AuthController.register)
         group.post("/login", AuthController.login)
-
+        
         
     }
 )
@@ -98,10 +91,12 @@ export const adminRoutes = routeGroup(
     (group) => {
         //notification
         group.post("/notifications", NotifController.store)
-
-
+        
+        
         //product-type
         group.post("/product-types", ProductTypeController.store)
+        group.put("/product-types/:id", ProductTypeController.update)
+        group.delete("/product-types/:id", ProductTypeController.destroy)
         //products
         group.post("/products", ProductController.store)
         group.put("/products/:id", ProductController.update)
@@ -110,6 +105,31 @@ export const adminRoutes = routeGroup(
         group.post("/categories", CategoriyController.store)
         group.put("/categories/:id", CategoriyController.update)
         group.delete("/categories/:id", CategoriyController.destroy)
+        
+        //product-accounts
+        group.post("/product-accounts", ProductAccountController.store)
+        group.put("/product-accounts/:id", ProductAccountController.update)
+        group.delete("/product-accounts/:id", ProductAccountController.destroy)
+        //product-variants
+        group.post("/product-variants", ProductVariantController.store)
+        group.put("/product-variants/:id", ProductVariantController.update)
+        group.delete("/product-variants/:id", ProductVariantController.destroy)
+
+        //product-invites
+        group.post("/product-invites", ProductInviteController.store)
+        group.put("/product-invites/:id", ProductInviteController.update)
+        group.delete("/product-invites/:id", ProductInviteController.destroy)
+        //affiliate
+        group.get("/affiliate/commissions", AffiliateController.index)
+        group.delete("/affiliate/:id", AffiliateController.destroy)
+        //users
+        group.get("/users", UserController.index)
+        group.delete("/user/:id", UserController.destroy)
+        //notifications 
+        group.get("/notifications", NotifController.index)
+        group.delete("/notifications/:id", NotifController.destroy)
+        //distributions
+        group.delete("/distributions/:id", DistributionController.destroy)
     }
 )
 

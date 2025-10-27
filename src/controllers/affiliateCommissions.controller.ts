@@ -20,6 +20,21 @@ export class AffiliateController {
     // ========================
     // 📄 GET /affiliate/commissions
     // ========================
+
+
+    static async index() { 
+        const cacheKey = `affiliate:commissions:all`;
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+            console.log("data semua komisi dari cache");
+            const parsed = JSON.parse(cached);
+            return response.success(parsed, "data semua komisi dari cache");
+        }   
+        const data =await db.select().from(affiliateCommissions);
+        await redis.set(cacheKey, JSON.stringify(data), "EX", 300);
+        console.log("data semua komisi dari db");
+        return response.success(data, "Affiliate index");
+    }
     static async commissions({ query, user }: any) {
         const page = Number(query.page ?? 1);
         const limit = 15;
@@ -170,4 +185,10 @@ export class AffiliateController {
     // ========================
     static async store({ body, user, set }: any) { }
     static async update({ params, body, set }: any) { }
+    static async destroy({params}: any){
+        const id = Number(params.id)
+        await db.delete(affiliateCommissions).where(eq(affiliateCommissions.id, id))
+        await redis.del(`affiliate:commissions:all`) // menghapus cache setelah data berubah
+        return response.success(null, "komisi affiliate berhasil dihapus")
+    }
 }

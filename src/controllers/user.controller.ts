@@ -35,18 +35,13 @@ export class UserController {
     }
 
     static async me({ user }: any) {
-        const cacheKey = `user:me:${user.id}`;
-        const cached = await redis.get(cacheKey);
-        if (cached) {
-            console.log("data user dari cache");
-            const parsed = JSON.parse(cached);
-            return response.success(parsed, "data user dari cache");
-        }
+      
+    
 
         const data = await db.select().from(users).where(eq(users.id, user.id)).limit(2)
         if (!data) return response.fail("data tidak di temukan")
         // simpan ke redis dengan expired 5 menit
-        await redis.set(cacheKey, JSON.stringify(data), "EX", 300);
+        
         console.log("data user dari db");
         return response.success(data, "data berhasil")
 
@@ -86,6 +81,7 @@ export class UserController {
     static async destroy({ params }: any) {
         const id = Number(params.id)
         await db.delete(users).where(eq(users.id, id))
+        await redis.del(`user:me:${id}`) // menghapus cache user yang di hapus
         return response.success(`data dengan ID : ${id} berhasil di hapus`)
     }
 }

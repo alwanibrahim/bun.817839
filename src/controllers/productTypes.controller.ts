@@ -38,7 +38,28 @@ export class ProductTypeController {
         }, "data behasil")
 
     }
-    static async update(){
+    static async update({params, body}: any){
+        const id = Number(params.id)
+        const [existing] =await  db.select().from(productTypes).where(eq(productTypes.id, id)).limit(1)
+        if(!existing) return response.fail("data tidak di temukan", 404)
+        const parse = ProductTypeController.updateProductTypeSchema.safeParse(body)
+        if(!parse.success) return response.fail(parse.error.issues.map((e)=>e.message).join(", "), 422)
+            const {name, description, slug} = parse.data
+        await db.update(productTypes).set({
+            name: name, 
+            description: description, 
+            slug: slug
+        }).where(eq(productTypes.id, id))
+
+        return response.success({
+            id: id, 
+            name: name, 
+            description: description, 
+            slug: slug, 
+            createdAt: Date.now(), 
+            updatedAt: Date.now() 
+
+        })
     }
     static async destroy({params}: any){
         const id = Number(params.id)

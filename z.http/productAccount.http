@@ -25,5 +25,5 @@ Authorization: Bearer {{$dotenv TOKEN}}
 }
 
 ### DELETE - Hapus akun produk
-DELETE http://localhost:3001/api/product-accounts/1
+DELETE http://localhost:3001/api/admin/product-accounts/11
 Authorization: Bearer {{$dotenv TOKEN}}
