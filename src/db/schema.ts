@@ -203,3 +203,60 @@ export const users = mysqlTable("users", {
         unique("users_email_unique").on(table.email),
         unique("users_referral_code_unique").on(table.referralCode),
     ]);
+
+
+export const randoms1 = mysqlTable("randoms", {
+    id: varchar("id", { length: 36 }).primaryKey(),
+    name: varchar("name", { length: 100 }).notNull(),
+    santai: boolean("is_active").default(true),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`)
+})
+type Json = {
+    color: string
+    tags: string[]
+}
+export const santa1 = mysqlTable("sangat_santai", {
+    id: varchar("id", { length: 36 }).primaryKey(),
+    randoms1Id: varchar("random_id", { length: 38 }).notNull().references(() => randoms1.id),
+    name: varchar("name", { length: 500 }).notNull(),
+    santai: varchar("santai", { length: 200 }).notNull(),
+    sangatEnum: mysqlEnum("data", ["santa", "mimin", "skaj"]).default("santa"),
+    sangatJson: json("sangat_Json").$type<Json>(),
+    createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`)
+})
+
+export const bots = mysqlTable("bots", {
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
+    userId: bigint("user_id", { mode: "number", unsigned: true }).references(() => users.id, { onDelete: "cascade" }),
+    name: varchar("name", { length: 100 }).notNull(),
+    userName: varchar("user_name", { length: 100 }),
+    token: text("token"),
+    webhookUrl: text("webhook_url"),
+    isActive: boolean("is_active").default(false),
+    createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`)
+
+
+})
+export const flows = mysqlTable("flows", {
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
+    botId: bigint("bot_id", { mode: "number", unsigned: true }).notNull().references(() => bots.id, { onDelete: "cascade" }),
+    name: varchar("name", { length: 100 }).notNull(),
+    trigger: varchar("trigger", { length: 50 }).notNull(),
+    isActive: boolean("is_active").default(false),
+    createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`)
+
+
+
+})
+export const nodes = mysqlTable("nodes", {
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
+
+    flowId: bigint("flow_id", { mode: "number", unsigned: true }).notNull().references(() => flows.id, { onDelete: "cascade" }),
+    type: varchar("type", { length: 50 }).notNull(),
+    data: json("data").$type<Record<string, any>>().notNull(),
+    nextNodeId: varchar("next_node_id", { length: 36 }),
+    positionX: int("position_x").notNull(),
+    positionY: int("position_Y").notNull(),
+    createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`)
+
+})

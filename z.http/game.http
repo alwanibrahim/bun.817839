@@ -19,7 +19,8 @@ Accept: application/jso
 POST http://localhost:3001/api/topup
 Content-Type: application/json
 Authorization: Bearer {{$dotenv TOKEN}} 
-
+    
 {
-    "idGame": 122441889
+    "idGame": 122441889, 
+    "kode": "ML"
 }

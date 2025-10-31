@@ -1,0 +1,14 @@
+###get
+GET http://localhost:3001/api/flows
+Authorization: Bearer {{$dotenv TOKEN}}
+###post
+POST  http://localhost:3001/api/flows
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+  "botId": 1,
+  "name": "greeting_flow",
+  "trigger": "on_message",
+  "isActive": true
+}

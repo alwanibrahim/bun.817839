@@ -1,0 +1,17 @@
+###get
+GET http://localhost:3001/api/nodes
+Authorization: Bearer {{$dotenv TOKEN}}
+###POST
+POST http://localhost:3001/api/nodes
+Authorization: Bearer {{$dotenv TOKEN}}
+Content-Type: application/json
+
+{
+    "flowId": 1, 
+    "type": "start", 
+    "data": {
+        "text": "Mulai saja kawan"
+    }, 
+    "positionX": 50,
+  "positionY": 100
+}

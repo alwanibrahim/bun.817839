@@ -16,6 +16,10 @@ import { ProductAccountController } from "../controllers/productAccount.controll
 import { ProductInviteController } from "../controllers/productInvites.controller"
 import { ProductControllerV1 } from "../controllers/product.v1.controller"
 import { GameTopupController } from "../controllers/gameTopup.controller"
+import { telegramController } from "../webhooks/telegram.controller"
+import { NodesControllers } from "../controllers/nodes.controller"
+import { BotsControllers } from "../controllers/bots.controller"
+import { FlowsControllers } from "../controllers/flow.controller"
 
 
 export const userRoutes = routeGroup(
@@ -71,6 +75,19 @@ export const userRoutes = routeGroup(
 
         //game
         group.post("/topup", GameTopupController.topup)
+        //bots
+        group.get("/bots", BotsControllers.index)
+        group.post("/bots", BotsControllers.create)
+        
+        //flows
+        group.get("/flows", FlowsControllers.index)
+        group.post("/flows", FlowsControllers.create)
+
+        
+        //nodes
+        group.get("/nodes", NodesControllers.index)
+        group.post("/nodes", NodesControllers.create)
+        
     }
 )
 export const authRoute = routeGroup(
@@ -80,6 +97,7 @@ export const authRoute = routeGroup(
         group.use(apiKeyGuard)
         group.post("/register", AuthController.register)
         group.post("/login", AuthController.login)
+        // group.post("/telegram/webhook", telegramController.telegram)
         
         
     }

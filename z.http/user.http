@@ -10,7 +10,7 @@ Authorization: Bearer {{$dotenv TOKEN}}
 Content-Type: application/json
 
 {
-    "name": "Updated Name",
+    "name": "Updated ",
     "email": "alwanibrahim142@gmail.com"
 }       
 ###get
